@@ -5,11 +5,6 @@ open Sutil
 open Browser
 open Browser.Types
 
-[<RequireQualifiedAccess>]
-type HistoryMode =
-  | PushState
-  | ReplaceState
-
 module internal Common =
   let split (splitBy: string) (value: string) =
     value.Split([| splitBy |], StringSplitOptions.RemoveEmptyEntries)
@@ -43,16 +38,8 @@ module Router =
     else
       splitRoute route
 
-  let navigateWithMode (historyMode: HistoryMode) (url: string) : Cmd<_> =
-    Cmd.ofEffect (fun _ ->
-      match historyMode with
-      | HistoryMode.PushState -> history.pushState ((), "", url)
-      | HistoryMode.ReplaceState -> history.replaceState ((), "", url)
-
-      window.location.assign url)
-
   let navigate (url: string) : Cmd<_> =
-    navigateWithMode HistoryMode.PushState url
+    Cmd.ofEffect (fun _ -> window.location.assign url)
 
 // Credits to Feliz.Router for these amazing active pattern definitions.
 // https://github.com/Zaid-Ajaj/Feliz.Router/blob/master/src/Router.fs#L1430
