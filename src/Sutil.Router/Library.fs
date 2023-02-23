@@ -44,18 +44,12 @@ module Router =
       splitRoute route
 
   let navigateWithMode (historyMode: HistoryMode) (url: string) : Cmd<_> =
-    let cmdFunc =
+    Cmd.ofEffect (fun _ ->
       match historyMode with
-      | HistoryMode.PushState ->
-        fun _ ->
-          window.location.assign url
-          history.pushState ((), "", url)
-      | HistoryMode.ReplaceState ->
-        fun _ ->
-          window.location.assign url
-          history.replaceState ((), "", url)
+      | HistoryMode.PushState -> history.pushState ((), "", url)
+      | HistoryMode.ReplaceState -> history.replaceState ((), "", url)
 
-    [ cmdFunc ]
+      window.location.assign url)
 
   let navigate (url: string) : Cmd<_> =
     navigateWithMode HistoryMode.PushState url
