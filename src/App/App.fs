@@ -40,7 +40,8 @@ let view () =
   let dispose _ = ()
   let model, dispatch = () |> Store.makeElmish init update dispose
 
-  let routerSubscription = Navigable.listenLocation (Router.getCurrentUrl, getPageFromUrl >> SetPage >> dispatch)
+  let routerSubscription =
+    Navigable.listenLocation (Router.getCurrentUrl, getPageFromUrl >> SetPage >> dispatch)
 
   Html.div [
     Attr.style [ Css.displayFlex; Css.flexDirectionColumn ]
@@ -65,4 +66,4 @@ let view () =
     )
   ]
 
-Program.mount("sutil-app", view())
+Program.mount ("sutil-app", view ())
