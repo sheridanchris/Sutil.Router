@@ -6,6 +6,7 @@
     <PackageId>Sutil.Router</PackageId>
     <Version>0.0.1</Version>
     <Authors>Christian Sheridan</Authors>
+    <RepositoryUrl>https://github.com/sheridanchris/Sutil.Router</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
