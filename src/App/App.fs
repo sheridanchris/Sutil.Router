@@ -66,4 +66,4 @@ let view () =
     )
   ]
 
-Program.mount ("sutil-app", view ())
+Program.mount ("sutil-app", view ()) |> ignore // Do I ignore this?
