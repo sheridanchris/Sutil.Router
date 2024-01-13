@@ -42,16 +42,17 @@ pipeline "Publish" {
       runSensitive (nugetPushCommand key))
   }
 
-  post
-    [ stage "Post publish" {
-        whenNot { envVar "GITHUB_ACTION" }
+  post [
+    stage "Post publish" {
+      whenNot { envVar "GITHUB_ACTION" }
 
-        run (fun _ ->
-          let nugetPackageFiles =
-            Directory.EnumerateFiles(Environment.CurrentDirectory, "*.nupkg")
+      run (fun _ ->
+        let nugetPackageFiles =
+          Directory.EnumerateFiles(Environment.CurrentDirectory, "*.nupkg")
 
-          nugetPackageFiles |> Seq.iter File.Delete)
-      } ]
+        nugetPackageFiles |> Seq.iter File.Delete)
+    }
+  ]
 
   runIfOnlySpecified true
 }

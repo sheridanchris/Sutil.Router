@@ -43,25 +43,27 @@ let view () =
   let routerSubscription =
     Navigable.listenLocation (Router.getCurrentUrl, getPageFromUrl >> SetPage >> dispatch)
 
-  Html.div
-    [ Attr.style [ Css.displayFlex; Css.flexDirectionColumn ]
+  Html.div [
+    Attr.style [ Css.displayFlex; Css.flexDirectionColumn ]
 
-      Html.button
-        [ Attr.style [ Css.width 350 ]
-          Attr.text "Click me to navigate to the login page!"
-          onClick (fun _ -> dispatch (Navigate "/#/login")) [] ]
-      Html.a [ Attr.href "/#/users/1"; Attr.text "Click me to navigate to a user's profile" ]
-      Bind.el (
-        model .> currentPage,
-        fun currentPage ->
-          let content =
-            match currentPage with
-            | Home -> "Home page"
-            | Login -> "Login page"
-            | UserProfile id -> $"Viewing user #{id}"
-            | NotFound -> "Not found!"
+    Html.button [
+      Attr.style [ Css.width 350 ]
+      Attr.text "Click me to navigate to the login page!"
+      onClick (fun _ -> dispatch (Navigate "/#/login")) []
+    ]
+    Html.a [ Attr.href "/#/users/1"; Attr.text "Click me to navigate to a user's profile" ]
+    Bind.el (
+      model .> currentPage,
+      fun currentPage ->
+        let content =
+          match currentPage with
+          | Home -> "Home page"
+          | Login -> "Login page"
+          | UserProfile id -> $"Viewing user #{id}"
+          | NotFound -> "Not found!"
 
-          Html.h1 content
-      ) ]
+        Html.h1 content
+    )
+  ]
 
 Program.mount ("sutil-app", view ()) |> ignore // Do I ignore this?
