@@ -78,13 +78,7 @@ module Route =
     | "" -> Some true
     | _ -> None
 
-  let (|Query|_|) (value: string) =
-    let queryParams = splitQueryParam value
-
-    if List.length queryParams = 0 then
-      None
-    else
-      queryParams
-      |> List.map (splitKeyValuePair >> getKeyValuePair)
-      |> List.choose id
-      |> Some
+  let (|Query|_|) (input: string) =
+    match splitQueryParam input with
+    | [] -> None
+    | queryParams -> queryParams |> List.choose (splitKeyValuePair >> getKeyValuePair) |> Some
